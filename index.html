@@ -3,11 +3,9 @@
   It's designed to be a simple, clean starting point for showcasing your work.
 
   Changes in this version:
-  - FIXED: Ensured all project card images are the same size using Tailwind classes:
-    - h-48: Sets a fixed height (12rem).
-    - w-full: Makes the image span the full width of the card.
-    - object-cover: Ensures the image fills the space, cropping excess edges to maintain aspect ratio integrity.
-    - The removed width/height attributes on the <img> tags, relying on CSS for sizing.
+  - FIXED: Enforced a consistent height for the ENTIRE project card using the h-[40rem] custom value.
+    This ensures all cards are the same size regardless of text length.
+  - Adjusted flex properties to ensure the links section is always pushed to the bottom.
 -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -27,6 +25,10 @@
                     fontFamily: {
                         inter: ['Inter', 'sans-serif'],
                     },
+                    // Adding a custom scale for fixed heights where 40rem = 160 units
+                    spacing: {
+                        '160': '40rem', 
+                    }
                 }
             }
         }
@@ -51,6 +53,11 @@
         .is-visible {
             opacity: 1;
             transform: translateY(0);
+        }
+        /* Fix for scrollable description if content overflows fixed card height */
+        .project-description {
+            max-height: 14rem; /* Define a max height for the text area */
+            overflow-y: auto; /* Enable vertical scroll if text overflows */
         }
     </style>
 </head>
@@ -102,36 +109,42 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <!-- Project Card 1 -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                <!-- Added h-160 class for fixed height -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
                     <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
                     <img src="https://kaylam60.github.io/assets/CCR.jpg" alt="Cube Craze Robotics Project Image" class="rounded-lg mb-4 h-48 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Cube Craze Robotics</h3>
-                        <p class="text-gray-300 mb-4">Engineered and programmed an autonomous robot using an Arduino microcontroller and custom laser-cut chassis. 
-                        The system utilized a two-wheel drive with QTI and TCS3200 color sensors for navigation and object detection. 
-                        I designed and implemented the state-machine-based C/C++ code for autonomous operation, including line-following, color-based state transitions, 
-                        and a strategic sweep-and-hoard mission. This project demonstrates proficiency in mechatronics, sensor integration, and low-level embedded programming.</p>
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>Engineered and programmed an autonomous robot using an Arduino microcontroller and custom laser-cut chassis. 
+                            The system utilized a two-wheel drive with QTI and TCS3200 color sensors for navigation and object detection. 
+                            I designed and implemented the state-machine-based C/C++ code for autonomous operation, including line-following, color-based state transitions, 
+                            and a strategic sweep-and-hoard mission. This project demonstrates proficiency in mechatronics, sensor integration, and low-level embedded programming.</p>
+                        </div>
                     </div>
-                    <!-- Updated: Added a new container for multiple links with spacing -->
-                    <div class="flex flex-row space-x-4 justify-end">
+                    <!-- Links are justified to the end (bottom) -->
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
                         <a href="https://kaylam60.github.io/Cube-Craze-Annual/" target="_blank" class="text-green-400 hover:underline font-semibold">Details &rarr;</a>
                         <a href="https://github.com/Kaylam60/Cube-Craze-Annua1" target="_blank" class="text-blue-400 hover:underline font-semibold">GitHub &rarr;</a>
-                        <!a href="https://your-live-website.com" target="_blank" class="text-red-400 hover:underline font-semibold">Live Demo &rarr;</a>>
+                        <!-- <a href="https://your-live-website.com" target="_blank" class="text-red-400 hover:underline font-semibold">Live Demo &rarr;</a> -->
                     </div>
                 </div>
 
                 <!-- Project Card 2 -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                <!-- Added h-160 class for fixed height -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
                     <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
                     <img src="https://kaylam60.github.io/assets/SLAM.jpg" alt="SLAM Based Automotive RC Car Project Image" class="rounded-lg mb-4 h-48 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">SLAM Based Automotive RC car</h3>
-                        <p class="text-gray-300 mb-4">This project involved building a small, autonomous RC car from the ground up, integrating various sensors and controls. 
-                        The core of the work focused on implementing and fine-tuning PID controllers for both linear distance and angular orientation, allowing the robot 
-                        to navigate a mapped environment, avoid obstacles, and perform specific stunts like a 180-degree turn. The final challenge involved combining 
-                        these systems for full-route planning and execution.</p>
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>This project involved building a small, autonomous RC car from the ground up, integrating various sensors and controls. 
+                            The core of the work focused on implementing and fine-tuning PID controllers for both linear distance and angular orientation, allowing the robot 
+                            to navigate a mapped environment, avoid obstacles, and perform specific stunts like a 180-degree turn. The final challenge involved combining 
+                            these systems for full-route planning and execution.</p>
+                        </div>
                     </div>
-                    <div class="flex flex-row space-x-4 justify-end">
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
                         <a href="https://kaylam60.github.io/SLAM-Based-Robot/" target="_blank" class="text-green-400 hover:underline font-semibold">Details &rarr;</a>
                         <a href="https://github.com/Kaylam60/SLAM-Based-Robot" target="_blank" class="text-blue-400 hover:underline font-semibold">GitHub &rarr;</a>
                         <a href="https://www.youtube.com/playlist?list=PLXE-M9kGWqSHYXEPRID2foamRpDfAV3vq" target="_blank" class="text-red-400 hover:underline font-semibold">Live Demo &rarr;</a>
@@ -139,18 +152,21 @@
                 </div>
 
                 <!-- Project Card 3 -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                <!-- Added h-160 class for fixed height -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
                     <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
                     <img src="https://kaylam60.github.io/assets/Pidash.jpg" alt="Pidash Project Image" class="rounded-lg mb-4 h-48 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Pidash</h3>
-                        <p class="text-gray-300 mb-4">Built a Raspberry Pi-powered dashcam system designed for high reliability and deep vehicle integration.
-                        The core of the work centered on implementing a two-way camera system where all OpenCV-captured footage was managed by a custom power management circuit to guarantee preservation even if the ignition was cut. 
-                        Concurrently, a mediamtx server was configured to enable live, web-based video streaming.
-                        The final user experience involved integrating an intuitive Python pigame interface on an Adafruit touchscreen, which works in parallel to display critical live OBD-II stats
-                        (velocity, RPM, engine load) directly alongside the camera functionality.</p>
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>Built a Raspberry Pi-powered dashcam system designed for high reliability and deep vehicle integration.
+                            The core of the work centered on implementing a two-way camera system where all OpenCV-captured footage was managed by a custom power management circuit to guarantee preservation even if the ignition was cut. 
+                            Concurrently, a mediamtx server was configured to enable live, web-based video streaming.
+                            The final user experience involved integrating an intuitive Python pigame interface on an Adafruit touchscreen, which works in parallel to display critical live OBD-II stats
+                            (velocity, RPM, engine load) directly alongside the camera functionality.</p>
+                        </div>
                     </div>
-                    <div class="flex flex-row space-x-4 justify-end">
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
                         <a href="https://kaylam60.github.io/PiDash/" target="_blank" class="text-green-400 hover:underline font-semibold self-end">Details &rarr;</a>
                         <a href="https://github.com/Kaylam60/PiDash" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
                         <a href="https://youtu.be/BGgrBcqAX3g" target="_blank" class="text-red-400 hover:underline font-semibold self-end">Live Demo &rarr;</a>
@@ -158,30 +174,35 @@
                 </div>
                 
                 <!-- Project Card 4 -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                <!-- Added h-160 class for fixed height -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
                     <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
                     <img src="https://kaylam60.github.io/assets/HRH.jpg" alt="FPGA to your Heart Project Image" class="rounded-lg mb-4 h-48 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">FPGA to your Heart</h3>
-                        <p class="text-gray-300 mb-4"> This project implements a heart rate monitoring system in Verilog and assembly on a simple processor. 
-                        It counts heartbeat pulses from a sensor input, computes beats per minute over a fixed sampling window, and displays the result on a two-digit 7-segment display.
-                        </p>
-                     </div>
-                    <div class="flex flex-row space-x-4 justify-end">
+                        <div class="project-description text-gray-300 mb-4">
+                            <p> This project implements a heart rate monitoring system in Verilog and assembly on a simple processor. 
+                            It counts heartbeat pulses from a sensor input, computes beats per minute over a fixed sampling window, and displays the result on a two-digit 7-segment display.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
                         <a href="https://kaylam60.github.io/SLAM-Based-Robot/" target="_blank" class="text-green-400 hover:underline font-semibold self-end">Details &rarr;</a>
                         <a href="https://github.com/Kaylam60/Heart-Rate-Monitor" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
                     </div>
                 </div>
                 
                 <!-- Project Card 5 -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                <!-- Added h-160 class for fixed height -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
                     <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
-                    <img src="https://kaylam60.github.io/assets/Crooks.png" alt="FPGA to your Heart Project Image" class="rounded-lg mb-4 h-48 w-full object-cover">
+                    <img src="https://kaylam60.github.io/assets/Crooks.png" alt="Dodge the Crooks Project Image" class="rounded-lg mb-4 h-48 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Dodge the crooks</h3>
-                        <p class="text-gray-300 mb-4">A brief description of your project. Talk about the technologies used and the problem it solved.</p>
-                     </div>
-                    <div class="flex flex-row space-x-4 justify-end">
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>A brief description of your project. Talk about the technologies used and the problem it solved.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
                         <a href="https://kaylam60.github.io/SLAM-Based-Robot/" target="_blank" class="text-green-400 hover:underline font-semibold self-end">Details &rarr;</a>
                         <a href="https://github.com/your-username/project-3" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
                         <a href="https://youtu.be/BGgrBcqAX3g" target="_blank" class="text-red-400 hover:underline font-semibold self-end">Live Demo &rarr;</a>
@@ -189,14 +210,17 @@
                 </div>
                 
                 <!-- Project Card 6 -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                <!-- Added h-160 class for fixed height -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
                     <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
                     <img src="https://placehold.co/600x400/374151/9ca3af?text=Sound+Analyzer+Image" alt="Sound Analyzer Project Image" class="rounded-lg mb-4 h-48 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Sound Analyzer</h3>
-                        <p class="text-gray-300 mb-4">A brief description of your project. Talk about the technologies used and the problem it solved.</p>
-                     </div>
-                    <div class="flex flex-row space-x-4 justify-end">
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>A brief description of your project. Talk about the technologies used and the problem it solved.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
                         <a href="https://kaylam60.github.io/SLAM-Based-Robot/" target="_blank" class="text-green-400 hover:underline font-semibold self-end">Details &rarr;</a>
                         <a href="https://github.com/Kaylam60/ECE-3140" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
                         <a href="https://youtu.be/BGgrBcqAX3g" target="_blank" class="text-red-400 hover:underline font-semibold self-end">Live Demo &rarr;</a>
