@@ -102,7 +102,8 @@
 
         <!-- Hero Section -->
         <section id="hero" class="text-center py-16 md:py-24 flex flex-col items-center fade-in-section">
-            <img src="https://avatars.githubusercontent.com/u/91022528?v=4" alt="Kofi's Profile Picture" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 border-gray-700 shadow-lg">
+            <!-- Tip: Double-click picture to reveal view counter for debugging -->
+            <img id="profile-pic" src="https://avatars.githubusercontent.com/u/91022528?v=4" alt="Kofi's Profile Picture" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 border-gray-700 shadow-lg cursor-pointer">
             <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">Hi, I'm Kofi</h1>
             <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
                 Glad to have you here! <br class="hidden md:block">
@@ -153,7 +154,7 @@
                     <span class="text-sm font-semibold text-gray-400 uppercase tracking-widest">Resume Preview</span>
                     <div class="flex space-x-4">
                         <a href="https://kaylam60.github.io/assets/KofiOheneAdu_Resume_1201.pdf" target="_blank" class="text-gray-400 hover:text-white text-sm flex items-center underline">Open in New Tab</a>
-                        <a href="https://kaylam60.github.io/assets/KofiOheneAdu_Resume_1201.pdf" download="KofiOheneAdu_Resume.pdf" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-2.5 rounded-lg font-bold flex items-center space-x-2 transition-all shadow-lg transform hover:scale-105 active:scale-95">
+                        <a href="https://kaylam60.github.io/assets/KofiOheneAdu_Resume_1201.pdf" download="Kofi_Resume.pdf" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-2.5 rounded-lg font-bold flex items-center space-x-2 transition-all shadow-lg transform hover:scale-105 active:scale-95">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             <span>Download PDF</span>
                         </a>
@@ -161,7 +162,6 @@
                 </div>
                 <!-- Embed Area -->
                 <div class="w-full bg-gray-900" style="height: 800px;">
-                    <!-- Added .pdf extension to ensure browser recognizes it as a PDF -->
                     <embed src="https://kaylam60.github.io/assets/KofiOheneAdu_Resume_1201.pdf" type="application/pdf" width="100%" height="100%" />
                     <!-- Mobile fallback -->
                     <div class="md:hidden p-12 text-center text-gray-400">
@@ -179,7 +179,6 @@
 
                 <!-- Project Card 1: Cube Craze -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <!-- Image fix applied: h-60 w-full object-cover ensures fixed size and proportional fit -->
                     <img src="https://kaylam60.github.io/assets/CCR.jpg" alt="Cube Craze Robotics Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Cube Craze Robotics</h3>
@@ -291,8 +290,8 @@
         <section id="connect" class="py-12 md:py-16 fade-in-section text-center">
             <h2 class="text-3xl font-bold mb-8 text-white">Connect With Me</h2>
             <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
-                <a href="https://github.com/Kaylam60" target="_blank" class="bg-gray-700 text-white font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-gray-600 transition-all transform hover:-translate-y-1">GitHub</a>
-                <a href="https://www.linkedin.com/in/kofi-ohene-adu/" target="_blank" class="bg-blue-600 text-white font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-blue-500 transition-all transform hover:-translate-y-1">LinkedIn</a>
+                <a href="https://github.com/Kaylam60" target="_blank" class="bg-gray-700 text-white font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-gray-600 transition-all transform hover:-translate-y-1 text-center">GitHub</a>
+                <a href="https://www.linkedin.com/in/kofi-ohene-adu/" target="_blank" class="bg-blue-600 text-white font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-blue-500 transition-all transform hover:-translate-y-1 text-center">LinkedIn</a>
             </div>
         </section>
     </main>
@@ -316,17 +315,21 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global Config
-        const firebaseConfig = JSON.parse(__firebase_config);
+        // IMPORTANT: In your local/GitHub environment, you need to provide your own config.
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { /* Manual keys here */ };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kofi-final-v5';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kofi-final-v6';
 
-        // 1. FOOLPROOF ADMIN CHECK: Looks in search query AND the hash/fragment string
-        const isAdmin = window.location.href.includes('admin=true');
+        // Robust admin check
+        let isAdmin = window.location.href.includes('admin=true');
 
-        // 2. Auth Initialization (Rule 3 Pattern)
+        // Debug toggle: double click profile picture to see counter
+        document.getElementById('profile-pic').addEventListener('dblclick', () => {
+            document.getElementById('admin-counter').classList.toggle('hidden');
+        });
+
         const initAuth = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -335,7 +338,7 @@
                     await signInAnonymously(auth);
                 }
             } catch (error) {
-                console.error("Authentication Error:", error);
+                console.error("Auth Error:", error);
             }
         };
 
@@ -343,30 +346,19 @@
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) return;
-
-            // 3. Document Path (Rule 1)
             const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'analytics', 'global');
-
-            // 4. Atomic Update for View Counter
             try {
                 await updateDoc(statsRef, { views: increment(1) });
             } catch (err) {
                 await setDoc(statsRef, { views: 1 }, { merge: true });
             }
-
-            // 5. Admin Monitor
             if (isAdmin) {
-                const badge = document.getElementById('admin-counter');
-                const countDisplay = document.getElementById('view-count');
-                badge.classList.remove('hidden');
-
-                onSnapshot(statsRef, (snapshot) => {
-                    if (snapshot.exists()) {
-                        countDisplay.innerText = snapshot.data().views || 0;
+                document.getElementById('admin-counter').classList.remove('hidden');
+                onSnapshot(statsRef, (snap) => {
+                    if (snap.exists()) {
+                        document.getElementById('view-count').innerText = snap.data().views || 0;
                     }
-                }, (error) => {
-                    console.error("Firestore Listen Error:", error);
-                });
+                }, (error) => console.error("Snapshot Error:", error));
             }
         });
     </script>
@@ -390,12 +382,9 @@
         function toggleResume() {
             const container = document.getElementById('resume-preview-container');
             const icon = document.getElementById('resume-icon');
-            
             container.classList.toggle('expanded');
-            
             if (container.classList.contains('expanded')) {
                 icon.style.transform = 'rotate(180deg)';
-                // Scroll into view so the user doesn't miss the expansion
                 setTimeout(() => {
                     container.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 300);
