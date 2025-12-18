@@ -1,11 +1,13 @@
 <!--
-  This is a responsive, single-page portfolio website built with HTML and Tailwind CSS.
-  It's designed to be a simple, clean starting point for showcasing your work.
-
-  Changes in this version:
-  - FIXED: Ensured all project card images are the same size using the h-48 w-full object-cover classes.
-  - FIXED: Enforced a consistent height for the ENTIRE project card using the h-[40rem] custom value.
-  - NEW: Added CSS rules to hide the scrollbar on the project descriptions while preserving scroll functionality, for a cleaner look.
+  Kofi Aboagye Ohene Adu - Professional Portfolio
+  
+  Features:
+  - Dark Mode + Tailwind CSS
+  - Expandable Resume Bar with PDF Preview & Download
+  - Private Firestore View Counter (Secret: add ?admin=true to URL)
+  - Fade-in scroll animations
+  - Consistent project card heights (40rem)
+  - Hidden scrollbars for project descriptions
 -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -13,11 +15,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kofi's Portfolio</title>
-    <!-- Favicon placeholder. Replace with your own. -->
-    <link rel="icon" href="https://placehold.co/32x32/1a202c/ffffff?text=P" type="image/png">
-    <!-- Load Tailwind CSS from CDN -->
+    <link rel="icon" href="https://placehold.co/32x32/1a202c/ffffff?text=K" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configure Tailwind to use the Inter font -->
     <script>
         tailwind.config = {
             theme: {
@@ -25,7 +24,6 @@
                     fontFamily: {
                         inter: ['Inter', 'sans-serif'],
                     },
-                    // Adding a custom scale for fixed heights where 40rem = 160 units
                     spacing: {
                         '160': '40rem', 
                     }
@@ -34,59 +32,57 @@
         }
     </script>
     <style>
-        /* Custom styles for the smooth scroll effect */
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Animation class for the fade-in effect */
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Fade-in Animation Classes */
         .fade-in-section {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
             will-change: opacity, transform;
         }
-
-        /* Class applied when the section is in view */
         .is-visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* --- Scrollbar Hiding/Styling --- */
+        /* Project Description Scroll Styling (Hidden Scrollbar) */
         .project-description {
-            max-height: 14rem; /* Define a max height for the text area */
-            overflow-y: auto; /* Enable vertical scroll if text overflows */
+            max-height: 14rem;
+            overflow-y: auto;
+            -ms-overflow-style: none; /* IE/Edge */
+            scrollbar-width: none; /* Firefox */
         }
-        
-        /* 1. Hide scrollbar for Chrome, Safari, and Opera */
-        .project-description::-webkit-scrollbar {
-            display: none;
+        .project-description::-webkit-scrollbar { 
+            display: none; /* Chrome/Safari */
         }
 
-        /* 2. Hide scrollbar for IE and Edge (using ms-overflow-style) */
-        .project-description {
-            -ms-overflow-style: none;
+        /* Resume Transition Logic */
+        #resume-preview-container {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
         }
-        
-        /* 3. Hide scrollbar for Firefox (using scrollbar-width) */
-        .project-description {
-            scrollbar-width: none;
+        #resume-preview-container.expanded {
+            max-height: 1200px; /* High enough to fit PDF and padding */
+            opacity: 1;
+            margin-top: 1.5rem;
         }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 antialiased">
 
     <!-- Header Section -->
-    <header class="bg-gray-800 shadow-md sticky top-0 z-50">
+    <header class="bg-gray-800 shadow-md sticky top-0 z-50 border-b border-gray-700">
         <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="#" class="text-2xl font-bold text-gray-100">Kofi Aboagye Ohene Adu</a>
-            <div class="hidden md:flex space-x-6">
-                <a href="#about" class="text-gray-300 hover:text-gray-100 transition-colors duration-300">About</a>
-                <a href="#projects" class="text-gray-300 hover:text-gray-100 transition-colors duration-300">Projects</a>
-                <a href="#connect" class="text-gray-300 hover:text-gray-100 transition-colors duration-300">Connect</a>
+            <a href="#" class="text-2xl font-bold text-gray-100 tracking-tight">Kofi Aboagye Ohene Adu</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-gray-300 hover:text-white transition-colors">About</a>
+                <a href="#resume-section" class="text-gray-300 hover:text-white transition-colors">Resume</a>
+                <a href="#projects" class="text-gray-300 hover:text-white transition-colors">Projects</a>
+                <a href="#connect" class="text-gray-300 hover:text-white transition-colors">Connect</a>
             </div>
         </nav>
     </header>
@@ -96,29 +92,68 @@
 
         <!-- Hero Section -->
         <section id="hero" class="text-center py-16 md:py-24 flex flex-col items-center fade-in-section">
-            <!-- New: Profile Picture -->
-            <img src="https://avatars.githubusercontent.com/u/91022528?v=4" alt=" Profile Picture" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 border-gray-700 shadow-lg">
-            
+            <img src="https://avatars.githubusercontent.com/u/91022528?v=4" alt="Kofi's Profile Picture" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 border-gray-700 shadow-lg">
             <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">Hi, I'm Kofi</h1>
             <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-                Welcome! Glad to have you here! 
-                A passionate robotic enthusiast
+                Welcome! Glad to have you here! <br>
+                A passionate robotic enthusiast specialized in robotics, automation, and control systems.
             </p>
         </section>
 
         <!-- About Section -->
         <section id="about" class="py-12 md:py-16 fade-in-section">
-            <div class="bg-gray-800 rounded-xl shadow-lg p-8">
+            <div class="bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-700">
                 <h2 class="text-3xl font-bold mb-4 text-center text-white">About Me</h2>
-                <p class="text-gray-300 text-lg leading-relaxed">
-                    Hello! My name is Kofi ( the "Ko" is pronounced like "Koe". My name is not coffee/cafe. Yes, I have heard both😅. 
-                    I'm a recent Electrical and Computer Engineering graduate from Cornell University with a strong interest in robotics, automation, and control systems.
-                    I'm also looking to branch into cloud and networks. 
-                    You can find some of my projects on my
-                    <a href="https://github.com/Kaylam60" target="_blank" class="text-blue-400 hover:underline">GitHub profile</a>.
-                    I'm always looking for new challenges and opportunities to learn and grow my skills.
-                    Apart from the technical route, I like to dabble in photography, video editing, and languages  I'm learning to animate in 3D as well:)
-                </p>
+                <div class="text-gray-300 text-lg leading-relaxed space-y-4">
+                    <p>
+                        Hello! My name is Kofi (pronounced like "Koe"). 
+                        I'm a recent Electrical and Computer Engineering graduate from Cornell University with a strong interest in robotics, automation, and control systems.
+                    </p>
+                    <p>
+                        I'm also looking to branch into cloud and networks. You can find some of my projects on my
+                        <a href="https://github.com/Kaylam60" target="_blank" class="text-blue-400 hover:underline">GitHub profile</a>.
+                    </p>
+                    <p>
+                        Apart from the technical route, I like to dabble in photography, video editing, and languages. I'm also learning to animate in 3D!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Resume Bar Section -->
+        <section id="resume-section" class="py-12 fade-in-section">
+            <button onclick="toggleResume()" class="w-full bg-gray-800 border border-gray-700 hover:border-blue-500 rounded-xl p-6 flex items-center justify-between transition-all group shadow-xl">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-blue-600 p-3 rounded-lg text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <div class="text-left">
+                        <h3 class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors uppercase tracking-tight">Professional Resume</h3>
+                        <p class="text-gray-400 text-sm">Click to view/hide preview or download</p>
+                    </div>
+                </div>
+                <div id="resume-icon" class="text-gray-500 transition-transform duration-500">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </button>
+
+            <!-- Expanded Resume Preview -->
+            <div id="resume-preview-container" class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl overflow-hidden">
+                <div class="p-6 bg-gray-800/50 border-b border-gray-700 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                    <span class="text-sm font-semibold text-gray-400 uppercase tracking-widest">Resume Preview</span>
+                    <a href="resume.pdf" download class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-2.5 rounded-lg font-bold flex items-center space-x-2 transition-all shadow-lg transform hover:scale-105 active:scale-95">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span>Download PDF</span>
+                    </a>
+                </div>
+                <div class="w-full bg-gray-900" style="height: 750px;">
+                    <!-- The PDF Embed -->
+                    <embed src="resume.pdf" type="application/pdf" width="100%" height="100%" />
+                    <!-- Mobile Fallback -->
+                    <div class="md:hidden p-8 text-center text-gray-400 h-full flex items-center justify-center">
+                        <p>PDF preview is optimized for desktop. <br> Please use the Download button above to view the full resume.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -127,144 +162,132 @@
             <h2 class="text-3xl font-bold mb-8 text-center text-white">My Projects</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <!-- Project Card 1 -->
-                <!-- Added h-160 class for fixed height -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
-                    <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
-                    <img src="https://kaylam60.github.io/assets/CCR.jpg" alt="Cube Craze Robotics Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
+                <!-- Project Card 1: Cube Craze -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
+                    <img src="https://kaylam60.github.io/assets/CCR.jpg" alt="Cube Craze Robotics" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Cube Craze Robotics</h3>
-                        <div class="project-description text-gray-300 mb-4">
-                            <p>I engineered and programmed an autonomous robot using an Arduino microcontroller and a custom chassis. 
-                            The system utilized a two-wheel H-bridge motorized drive with QTI and TCS3200 color sensors for navigation and object detection. 
-                            I designed and implemented the state-machine-based C/C++ code for autonomous operation, including line-following, color-based state transitions, 
-                            and a strategic sweep-and-hoard mission.</p>
+                        <div class="project-description text-gray-300">
+                            <p>I engineered and programmed an autonomous robot using an Arduino microcontroller and a custom chassis. The system utilized a two-wheel H-bridge motorized drive with QTI and TCS3200 color sensors for navigation and object detection. I designed and implemented the state-machine-based C/C++ code for autonomous operation, including line-following, color-based state transitions, and a strategic sweep-and-hoard mission.</p>
                         </div>
                     </div>
-                    <!-- Links are justified to the end (bottom) -->
                     <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
-                        <!--a href="https://kaylam60.github.io/Cube-Craze/" target="_blank" class="text-green-400 hover:underline font-semibold">Details &rarr;</a>-->
-                        <a href="https://github.com/Kaylam60/Cube-Craze" target="_blank" class="text-blue-400 hover:underline font-semibold">GitHub &rarr;</a>
-                        <!-- <a href="https://your-live-website.com" target="_blank" class="text-red-400 hover:underline font-semibold">Live Demo &rarr;</a> -->
+                        <a href="https://github.com/Kaylam60/Cube-Craze" target="_blank" class="text-blue-400 hover:underline font-semibold text-sm uppercase tracking-wide">GitHub &rarr;</a>
                     </div>
                 </div>
 
-                <!-- Project Card 2 -->
-                <!-- Added h-160 class for fixed height -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
-                    <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
-                    <img src="https://kaylam60.github.io/assets/SLAM.jpg" alt="SLAM Based Automotive RC Car Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
+                <!-- Project Card 2: SLAM Car -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
+                    <img src="https://kaylam60.github.io/assets/SLAM.jpg" alt="SLAM Car" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
-                        <h3 class="text-xl font-bold mb-2 text-white">The SLAM car</h3>
-                        <div class="project-description text-gray-300 mb-4">
-                            <p>This project involved building a small, autonomous RC car from the ground up, integrating various sensors and controls. 
-                            The core of the work focused on implementing and fine-tuning PID controllers for both linear distance and angular orientation, allowing the robot 
-                            to navigate a mapped environment, avoid obstacles, and perform specific stunts like a 180-degree turn. The final challenge involved combining 
-                            these systems for full-route planning and execution.</p>
+                        <h3 class="text-xl font-bold mb-2 text-white">The SLAM Car</h3>
+                        <div class="project-description text-gray-300">
+                            <p>This project involved building a small, autonomous RC car from the ground up, integrating various sensors and controls. The core of the work focused on implementing and fine-tuning PID controllers for both linear distance and angular orientation, allowing the robot to navigate a mapped environment, avoid obstacles, and perform specific stunts like a 180-degree turn.</p>
                         </div>
                     </div>
-                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
-                        <a href="https://kaylam60.github.io/SLAM-Based-Robot/" target="_blank" class="text-green-400 hover:underline font-semibold">Details &rarr;</a>
-                        <a href="https://github.com/Kaylam60/SLAM-Based-Robot" target="_blank" class="text-blue-400 hover:underline font-semibold">GitHub &rarr;</a>
-                        <a href="https://www.youtube.com/playlist?list=PLXE-M9kGWqSHYXEPRID2foamRpDfAV3vq" target="_blank" class="text-red-400 hover:underline font-semibold">Live Demo &rarr;</a>
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
+                        <a href="https://kaylam60.github.io/SLAM-Based-Robot/" target="_blank" class="text-green-400 hover:underline font-semibold uppercase tracking-wide">Details &rarr;</a>
+                        <a href="https://github.com/Kaylam60/SLAM-Based-Robot" target="_blank" class="text-blue-400 hover:underline font-semibold uppercase tracking-wide">GitHub &rarr;</a>
+                        <a href="https://www.youtube.com/playlist?list=PLXE-M9kGWqSHYXEPRID2foamRpDfAV3vq" target="_blank" class="text-red-400 hover:underline font-semibold uppercase tracking-wide">Demo &rarr;</a>
                     </div>
                 </div>
 
-                <!-- Project Card 3 -->
-                <!-- Added h-160 class for fixed height -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
-                    <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
-                    <img src="https://kaylam60.github.io/assets/Pidash.png" alt="Pidash Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
+                <!-- Project Card 3: PiDash -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
+                    <img src="https://kaylam60.github.io/assets/Pidash.png" alt="PiDash" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">PiDash</h3>
-                        <div class="project-description text-gray-300 mb-4">
-                            <p>Built a Raspberry Pi-powered dashcam system designed for high reliability and deep vehicle integration.
-                            The core of the work centered on implementing a two-way camera system where all OpenCV-captured footage was managed by a custom power management circuit to guarantee preservation even if the ignition was cut. 
-                            Concurrently, a mediamtx server was configured to enable live, web-based video streaming.
-                            The final user experience involved integrating an intuitive Python pigame interface on an Adafruit touchscreen, which works in parallel to display critical live OBD-II stats
-                            (velocity, RPM, engine load) directly alongside the camera functionality.</p>
+                        <div class="project-description text-gray-300">
+                            <p>Built a Raspberry Pi-powered dashcam system designed for high reliability and deep vehicle integration. Featuring a custom power management circuit to guarantee footage preservation. A mediamtx server enables live web-based video streaming alongside a Pygame interface for real-time OBD-II telemetry.</p>
                         </div>
                     </div>
-                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
-                        <!--a href="https://kaylam60.github.io/PiDash/" target="_blank" class="text-green-400 hover:underline font-semibold self-end">Details &rarr;</a>-->
-                        <a href="https://github.com/Kaylam60/PiDash" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
-                        <a href="https://youtu.be/BGgrBcqAX3g" target="_blank" class="text-red-400 hover:underline font-semibold self-end">Live Demo &rarr;</a>
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
+                        <a href="https://github.com/Kaylam60/PiDash" target="_blank" class="text-blue-400 hover:underline font-semibold uppercase tracking-wide">GitHub &rarr;</a>
+                        <a href="https://youtu.be/BGgrBcqAX3g" target="_blank" class="text-red-400 hover:underline font-semibold uppercase tracking-wide">Demo &rarr;</a>
                     </div>
                 </div>
 
-                <!-- Project Card 4 -->
-                <!-- Added h-160 class for fixed height -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
-                    <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
-                    <img src="https://kaylam60.github.io/assets/FR.png" alt="Robotic arm Simul" class="rounded-lg mb-4 h-60 w-full object-cover">
+                <!-- Project Card 4: Controllers -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
+                    <img src="https://kaylam60.github.io/assets/FR.png" alt="Robot simulation environment" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Simulate my Controllers and 6DOF's!</h3>
-                        <div class="project-description text-gray-300 mb-4">
-                            <p> This project describes all the challenges and steps I went through  whilst simulating a robotic run ( both robotic car  and robotic arm implementations) in a virtual environment during my time in the ECE4770 Foundations of Robotics class.
-                              From an introduction to robotics as a whole. degrees of freedom and how they are measured to Klarman and Bayesian filters and the Ziegler Nichols Method for the estimation of PID and MPC controllers
-                            </p>
+                        <div class="project-description text-gray-300">
+                            <p>Simulated robotic runs in virtual environments. Implemented Kalman and Bayesian filters and the Ziegler-Nichols method for PID and MPC controller estimation for both robotic cars and arms.</p>
                         </div>
                     </div>
-                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
-                        <!--a href="https://kaylam60.github.io/rb/" target="_blank" class="text-green-400 hover:underline font-semibold self-end">Details &rarr;</a>-->
-                        <a href="https://github.com/Kaylam60/Foundations-of-Robotics" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
+                        <a href="https://github.com/Kaylam60/Foundations-of-Robotics" target="_blank" class="text-blue-400 hover:underline font-semibold uppercase tracking-wide">GitHub &rarr;</a>
                     </div>
                 </div>
-              
-                <!-- Project Card 5 -->
-                <!-- Added h-160 class for fixed height -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
-                    <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
-                    <img src="https://kaylam60.github.io/assets/fpga.jpg" alt="FPGA to your Heart Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
+
+                <!-- Project Card 5: Heart Monitor -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
+                    <img src="https://kaylam60.github.io/assets/fpga.jpg" alt="Heart Rate Monitor" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
-                        <h3 class="text-xl font-bold mb-2 text-white">FPGA to your Heart</h3>
-                        <div class="project-description text-gray-300 mb-4">
-                            <p> This project implements a heart rate monitoring system in Verilog and assembly on a simple processor. 
-                            It counts heartbeat pulses from a sensor input, computes beats per minute over a fixed sampling window, and displays the result on a two-digit 7-segment display.</p>
+                        <h3 class="text-xl font-bold mb-2 text-white">FPGA Heart Monitor</h3>
+                        <div class="project-description text-gray-300">
+                            <p>Implemented a heart rate monitoring system in Verilog and assembly. Computes beats per minute over fixed sampling windows and displays results on 7-segment displays.</p>
                         </div>
                     </div>
-                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
-                        <!--a href="https://kaylam60.github.io/HRH/" target="_blank" class="text-green-400 hover:underline font-semibold self-end">Details &rarr;</a>-->
-                        <a href="https://github.com/Kaylam60/Heart-Rate-Monitor" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
+                        <a href="https://github.com/Kaylam60/Heart-Rate-Monitor-" target="_blank" class="text-blue-400 hover:underline font-semibold uppercase tracking-wide">GitHub &rarr;</a>
                     </div>
                 </div>
-                
-                <!-- Project Card 6 -->
-                <!-- Added h-160 class for fixed height -->
-              <!--
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
-                    <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit 
-                    <img src="https://kaylam60.github.io/assets/Crooks.png" alt="Dodge the Crooks Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2 text-white">Dodge them crooks!</h3>
-                        <div class="project-description text-gray-300 mb-4">
-                            <p>*Description Pending* *Visitor patience will be appreciated:) *.</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
-                        <a href="https://kaylam60.github.io/DTC/" target="_blank" class="text-gray-400 hover:underline font-semibold self-end">Details &rarr;</a>
-                        <a href="https://github.com/Kaylam60/Robot-perception" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
-                        <a href="https://youtu.be/" target="_blank" class="text-gray-400 hover:underline font-semibold self-end">Live Demo &rarr;</a>
-                    </div>
-                </div>
-                -->
-                <!-- Project Card 7 -->
-                <!-- Added h-160 class for fixed height -->
-                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
-                    <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit -->
-                    <img src="https://kaylam60.github.io/assets/SunA.png" alt="Sound Analyzer Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
+
+                <!-- Project Card 6: Sound Analyzer -->
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
+                    <img src="https://kaylam60.github.io/assets/SunA.png" alt="Sound Analyzer" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Light them beats!</h3>
-                        <div class="project-description text-gray-300 mb-4">
-                            <p>This project entailed using LEDs and a microcontroller to analyze which different frequencies where being identified from and an audio output</p>
+                        <div class="project-description text-gray-300">
+                            <p>Audio frequency analyzer using LEDs and microcontrollers to visualize audio intensity and frequency spectrums in real-time.</p>
                         </div>
                     </div>
-                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
-                        <a href="https://pages.github.coecis.cornell.edu/ece3140-sp2024/dow26-kao65/" target="_blank" class="text-gray-400 hover:underline font-semibold self-end">Details &rarr;</a>
-                        <a href="https://github.com/Kaylam60/ECE-3140" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
-                        <a href="https://youtu.be/QwKmXCfSBM4" target="_blank" class="text-red-400 hover:underline font-semibold self-end">Live Demo &rarr;</a>
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
+                        <a href="https://github.com/Kaylam60/ECE-3140" target="_blank" class="text-blue-400 hover:underline font-semibold uppercase tracking-wide">GitHub &rarr;</a>
+                        <a href="https://youtu.be/QwKmXCfSBM4" target="_blank" class="text-red-400 hover:underline font-semibold uppercase tracking-wide">Demo &rarr;</a>
                     </div>
                 </div>
+
+
+              <!-- Project Card 7-->
+
+                <!-- Added h-160 class for fixed height -->
+
+              <!--
+
+                <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem]">
+
+                    <!-- Image fix applied: h-48 w-full object-cover ensures fixed size and proportional fit 
+
+                    <img src="https://kaylam60.github.io/assets/Crooks.png" alt="Dodge the Crooks Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
+
+                    <div>
+
+                        <h3 class="text-xl font-bold mb-2 text-white">Dodge them crooks!</h3>
+
+                        <div class="project-description text-gray-300 mb-4">
+
+                            <p>*Description Pending* *Visitor patience will be appreciated:) *.</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
+
+                        <a href="https://kaylam60.github.io/DTC/" target="_blank" class="text-gray-400 hover:underline font-semibold self-end">Details &rarr;</a>
+
+                        <a href="https://github.com/Kaylam60/Robot-perception" target="_blank" class="text-blue-400 hover:underline font-semibold self-end">GitHub &rarr;</a>
+
+                        <a href="https://youtu.be/" target="_blank" class="text-gray-400 hover:underline font-semibold self-end">Live Demo &rarr;</a>
+
+                    </div>
+
+                </div>
+
+                --> 
             </div>
         </section>
 
@@ -272,54 +295,114 @@
         <section id="connect" class="py-12 md:py-16 fade-in-section">
             <h2 class="text-3xl font-bold mb-8 text-center text-white">Connect With Me</h2>
             <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
-                <!-- GitHub Link -->
-                <a href="https://github.com/Kaylam60" target="_blank"
-                   class="bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-600 transition-colors duration-300">
-                    GitHub
-                </a>
-                <!-- LinkedIn Link -->
-                <a href="https://www.linkedin.com/in/kofi-ohene-adu/" target="_blank"
-                   class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-500 transition-colors duration-300">
-                    LinkedIn
-                </a>
+                <a href="https://github.com/Kaylam60" target="_blank" class="bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-gray-600 transition-all transform hover:-translate-y-1">GitHub</a>
+                <a href="https://www.linkedin.com/in/kofi-ohene-adu/" target="_blank" class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-blue-500 transition-all transform hover:-translate-y-1">LinkedIn</a>
             </div>
         </section>
     </main>
 
+    <!-- Secret Admin View Counter (Visible with ?admin=true) -->
+    <div id="admin-counter" class="hidden fixed bottom-6 right-6 bg-gray-800/90 backdrop-blur border border-gray-600 text-xs text-gray-400 px-4 py-2.5 rounded-full shadow-2xl z-50 flex items-center space-x-3">
+        <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+        <span class="font-mono uppercase tracking-widest">Total Site Views: <b id="view-count" class="text-white ml-1">...</b></span>
+    </div>
+
     <!-- Footer -->
-    <footer class="bg-gray-800 shadow-inner py-6 mt-12">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            &copy; 2023 Kofi Ohene Adu. All rights reserved.
+    <footer class="bg-gray-800 shadow-inner py-10 mt-12 border-t border-gray-700">
+        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+            &copy; 2025 Kofi Ohene Adu. Built with 💻 and Passion.
         </div>
     </footer>
 
+    <!-- Firebase Logic for Private View Counter -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global Config
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kofi-final-v3';
+
+        // Check if Admin Mode is active
+        const urlParams = new URLSearchParams(window.location.search);
+        const isAdmin = urlParams.get('admin') === 'true';
+
+        async function init() {
+            try {
+                // Rule 3: Auth first
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (!user) return;
+
+                    // Rule 1: Strict Paths
+                    const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'analytics', 'global');
+
+                    // 1. Log the view
+                    try {
+                        await updateDoc(statsRef, { views: increment(1) });
+                    } catch (err) {
+                        await setDoc(statsRef, { views: 1 }, { merge: true });
+                    }
+
+                    // 2. Display for Admin
+                    if (isAdmin) {
+                        document.getElementById('admin-counter').classList.remove('hidden');
+                        onSnapshot(statsRef, (snap) => {
+                            if (snap.exists()) {
+                                document.getElementById('view-count').innerText = snap.data().views || 0;
+                            }
+                        }, (error) => console.error("Counter Error:", error));
+                    }
+                });
+            } catch (error) {
+                console.error("Init Error:", error);
+            }
+        }
+
+        init();
+    </script>
+
     <script>
-        // JavaScript to handle the fade-in effect on scroll
+        // Scroll Animations
         document.addEventListener("DOMContentLoaded", function() {
             const sections = document.querySelectorAll('.fade-in-section');
-            
-            const observerOptions = {
-                root: null, // relative to the viewport
-                rootMargin: '0px',
-                threshold: 0.1 // 10% of the section is visible
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Add the is-visible class to trigger the animation
                         entry.target.classList.add('is-visible');
-                        // Stop observing the element once it has been animated
                         observer.unobserve(entry.target);
                     }
                 });
-            }, observerOptions);
-
-            // Observe each section
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+            }, { threshold: 0.1 });
+            sections.forEach(s => observer.observe(s));
         });
+
+        // Resume Expand/Collapse Function
+        function toggleResume() {
+            const container = document.getElementById('resume-preview-container');
+            const icon = document.getElementById('resume-icon');
+            
+            container.classList.toggle('expanded');
+            
+            if (container.classList.contains('expanded')) {
+                icon.style.transform = 'rotate(180deg)';
+                // Scroll into view so the user doesn't miss the expansion
+                setTimeout(() => {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
     </script>
 </body>
 </html>
