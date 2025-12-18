@@ -9,7 +9,7 @@
   - Fade-in scroll animations
   - FIXED: Ensured all project card images are the same size using the h-60 w-full object-cover classes.
   - FIXED: Enforced a consistent height for the ENTIRE project card using the h-[40rem] custom value.
-  - NEW: Added CSS rules to hide the scrollbar on the project descriptions.
+  - NEW: Added CSS rules to hide the scrollbar on the project descriptions while preserving scroll functionality, for a cleaner look.
 -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -18,34 +18,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kofi's Portfolio</title>
     <link rel="icon" href="https://placehold.co/32x32/1a202c/ffffff?text=K" type="image/png">
+    <!-- Load Tailwind CSS from CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind to use the Inter font -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { inter: ['Inter', 'sans-serif'] },
-                    spacing: { '160': '40rem' }
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    // Adding a custom scale for fixed heights where 40rem = 160 units
+                    spacing: {
+                        '160': '40rem', 
+                    }
                 }
             }
         }
     </script>
     <style>
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; }
+        /* Custom styles for the smooth scroll effect */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Animation class for the fade-in effect */
         .fade-in-section {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
             will-change: opacity, transform;
         }
-        .is-visible { opacity: 1; transform: translateY(0); }
-        .project-description {
-            max-height: 14rem;
-            overflow-y: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+
+        /* Class applied when the section is in view */
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .project-description::-webkit-scrollbar { display: none; }
+
+        /* --- Scrollbar Hiding/Styling --- */
+        .project-description {
+            max-height: 14rem; /* Define a max height for the text area */
+            overflow-y: auto; /* Enable vertical scroll if text overflows */
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        .project-description::-webkit-scrollbar { 
+            display: none; /* Chrome/Safari */
+        }
+
+        /* Resume Transition Logic */
         #resume-preview-container {
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             max-height: 0;
@@ -53,7 +77,7 @@
             opacity: 0;
         }
         #resume-preview-container.expanded {
-            max-height: 1200px;
+            max-height: 1200px; /* High enough to fit PDF and padding */
             opacity: 1;
             margin-top: 1.5rem;
         }
@@ -79,11 +103,12 @@
 
         <!-- Hero Section -->
         <section id="hero" class="text-center py-16 md:py-24 flex flex-col items-center fade-in-section">
+            <!-- Tip: Double-click picture to reveal view counter -->
             <img id="profile-pic" src="https://avatars.githubusercontent.com/u/91022528?v=4" alt="Kofi's Profile Picture" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 border-gray-700 shadow-lg cursor-pointer transition-transform hover:scale-105 active:scale-95">
             <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">Hi, I'm Kofi</h1>
-            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed text-center">
-                Glad to have you here! <br class="hidden md:block">
-                A passionate robotic enthusiast specialized in robotics, automation, and control systems.
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Welcome! Glad to have you here! <br class="hidden md:block">
+                A passionate robotic enthusiast
             </p>
         </section>
 
@@ -91,10 +116,19 @@
         <section id="about" class="py-12 md:py-16 fade-in-section">
             <div class="bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-700">
                 <h2 class="text-3xl font-bold mb-6 text-center text-white">About Me</h2>
-                <div class="text-gray-300 text-lg leading-relaxed space-y-4 max-w-4xl mx-auto text-center md:text-left">
-                    <p>Hello! My name is Kofi (pronounced like "Koe-Fee"). I'm a recent ECE graduate from Cornell University.</p>
-                    <p>Explore my projects on <a href="https://github.com/Kaylam60" target="_blank" class="text-blue-400 hover:underline font-bold">GitHub profile</a>.</p>
-                    <p>Apart from the technical route, I like to dabble in photography, video editing, and 3D animation!</p>
+                <div class="text-gray-300 text-lg leading-relaxed space-y-4 max-w-4xl mx-auto">
+                    <p>
+                        Hello! My name is Kofi (the "Ko" is pronounced like "Koe". My name is not coffee/cafe. Yes, I have heard both😅). 
+                        I'm a recent Electrical and Computer Engineering graduate from Cornell University with a strong interest in robotics, automation, and control systems.
+                    </p>
+                    <p>
+                        I'm also looking to branch into cloud and networks. You can find some of my projects on my
+                        <a href="https://github.com/Kaylam60" target="_blank" class="text-blue-400 hover:underline font-bold">GitHub profile</a>.
+                    </p>
+                    <p>
+                        I'm always looking for new challenges and opportunities to learn and grow my skills.
+                        Apart from the technical route, I like to dabble in photography, video editing, and languages. I'm learning to animate in 3D as well:)
+                    </p>
                 </div>
             </div>
         </section>
@@ -116,6 +150,7 @@
                 </div>
             </button>
 
+            <!-- Expanded Resume Preview -->
             <div id="resume-preview-container" class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl overflow-hidden">
                 <div class="p-6 bg-gray-800/50 border-b border-gray-700 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                     <span class="text-sm font-semibold text-gray-400 uppercase tracking-widest text-center">Resume Preview</span>
@@ -141,15 +176,18 @@
         <section id="projects" class="py-12 md:py-16 fade-in-section">
             <h2 class="text-3xl font-bold mb-8 text-center text-white font-inter uppercase tracking-widest">My Projects</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+
                 <!-- Project Card 1: Cube Craze -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/CCR.jpg" alt="Cube Craze" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <!-- Image fix applied: h-60 w-full object-cover ensures fixed size and proportional fit -->
+                    <img src="https://kaylam60.github.io/assets/CCR.jpg" alt="Cube Craze Robotics Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Cube Craze Robotics</h3>
-                        <div class="project-description text-gray-300">
-                            <p>I engineered and programmed an autonomous robot using an Arduino microcontroller and a custom chassis. The system utilized a two-wheel H-bridge motorized drive with QTI and TCS3200 color sensors for navigation and object detection. I designed and implemented the state-machine-based C/C++ code for autonomous operation.</p>
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>I engineered and programmed an autonomous robot using an Arduino microcontroller and a custom chassis. The system utilized a two-wheel H-bridge motorized drive with QTI and TCS3200 color sensors for navigation and object detection. I designed and implemented the state-machine-based C/C++ code for autonomous operation, including line-following, color-based state transitions, and a strategic sweep-and-hoard mission.</p>
                         </div>
                     </div>
+                    <!-- Links are justified to the end (bottom) -->
                     <div class="flex flex-row space-x-4 justify-end mt-auto pt-4">
                         <a href="https://github.com/Kaylam60/Cube-Craze" target="_blank" class="text-blue-400 hover:underline font-semibold text-sm uppercase tracking-wide">GitHub &rarr;</a>
                     </div>
@@ -157,27 +195,27 @@
 
                 <!-- Project Card 2: SLAM Car -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/SLAM.jpg" alt="SLAM Car" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <img src="https://kaylam60.github.io/assets/SLAM.jpg" alt="SLAM Based Automotive RC Car Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">The SLAM car</h3>
-                        <div class="project-description text-gray-300">
-                            <p>Building a small, autonomous RC car with integrated sensors. Work focused on fine-tuning PID controllers for linear and angular orientation, allowing the robot to navigate mapped environments and avoid obstacles.</p>
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>This project involved building a small, autonomous RC car from the ground up, integrating various sensors and controls. The core of the work focused on implementing and fine-tuning PID controllers for both linear distance and angular orientation, allowing the robot to navigate a mapped environment, avoid obstacles, and perform specific stunts like a 180-degree turn. The final challenge involved combining these systems for full-route planning and execution.</p>
                         </div>
                     </div>
                     <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
-                        <a href="https://kaylam60.github.io/SLAM-Based-Robot/" target="_blank" class="text-green-400 hover:underline font-semibold uppercase">Details &rarr;</a>
-                        <a href="https://github.com/Kaylam60/SLAM-Based-Robot" target="_blank" class="text-blue-400 hover:underline font-semibold uppercase">GitHub &rarr;</a>
-                        <a href="https://www.youtube.com/playlist?list=PLXE-M9kGWqSHYXEPRID2foamRpDfAV3vq" target="_blank" class="text-red-400 hover:underline font-semibold uppercase">Demo &rarr;</a>
+                        <a href="https://kaylam60.github.io/SLAM-Based-Robot/" target="_blank" class="text-green-400 hover:underline font-semibold uppercase tracking-wide">Details &rarr;</a>
+                        <a href="https://github.com/Kaylam60/SLAM-Based-Robot" target="_blank" class="text-blue-400 hover:underline font-semibold uppercase tracking-wide">GitHub &rarr;</a>
+                        <a href="https://www.youtube.com/playlist?list=PLXE-M9kGWqSHYXEPRID2foamRpDfAV3vq" target="_blank" class="text-red-400 hover:underline font-semibold uppercase tracking-wide">Demo &rarr;</a>
                     </div>
                 </div>
 
                 <!-- Project Card 3: PiDash -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/Pidash.png" alt="PiDash" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <img src="https://kaylam60.github.io/assets/Pidash.png" alt="Pidash Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">PiDash</h3>
-                        <div class="project-description text-gray-300">
-                            <p>Raspberry Pi-powered dashcam with custom power management for data preservation. Features live video streaming and Pygame dashboard integration for real-time engine diagnostics.</p>
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>Built a Raspberry Pi-powered dashcam system designed for high reliability and deep vehicle integration. The core of the work centered on implementing a two-way camera system where all OpenCV-captured footage was managed by a custom power management circuit to guarantee preservation even if the ignition was cut. Concurrently, a mediamtx server was configured to enable live, web-based video streaming. The final user experience involved integrating an intuitive Python pigame interface on an Adafruit touchscreen, which works in parallel to display critical live OBD-II stats (velocity, RPM, engine load) directly alongside the camera functionality.</p>
                         </div>
                     </div>
                     <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
@@ -186,13 +224,13 @@
                     </div>
                 </div>
 
-                <!-- Project Card 4: Robotics Sim -->
+                <!-- Project Card 4: Foundations of Robotics -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/FR.png" alt="Simulation" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <img src="https://kaylam60.github.io/assets/FR.png" alt="Robotic simulation environment" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
-                        <h3 class="text-xl font-bold mb-2 text-white">Foundations of Robotics</h3>
-                        <div class="project-description text-gray-300">
-                            <p>Challenges in simulating robotic runs. Implementations included Kalman/Bayesian filters and Ziegler-Nichols tuning for PID and MPC controllers in virtual systems.</p>
+                        <h3 class="text-xl font-bold mb-2 text-white">Simulate my Controllers and 6DOF's!</h3>
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>This project describes all the challenges and steps I went through whilst simulating a robotic run (both robotic car and robotic arm implementations) in a virtual environment during my time in the ECE4770 Foundations of Robotics class. From an introduction to robotics as a whole, degrees of freedom and how they are measured to Klarman and Bayesian filters and the Ziegler Nichols Method for the estimation of PID and MPC controllers.</p>
                         </div>
                     </div>
                     <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
@@ -200,13 +238,13 @@
                     </div>
                 </div>
 
-                <!-- Project Card 5: Heart Monitor -->
+                <!-- Project Card 5: Heart Rate Monitor -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/fpga.jpg" alt="FPGA" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <img src="https://kaylam60.github.io/assets/fpga.jpg" alt="FPGA Heart Rate Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
-                        <h3 class="text-xl font-bold mb-2 text-white">FPGA Heart Rate Monitor</h3>
-                        <div class="project-description text-gray-300">
-                            <p>Verilog and assembly implementation of a heart rate monitor. Computes BPM from sensor input and displays results on real-time hardware displays.</p>
+                        <h3 class="text-xl font-bold mb-2 text-white">FPGA to your Heart</h3>
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>This project implements a heart rate monitoring system in Verilog and assembly on a simple processor. It counts heartbeat pulses from a sensor input, computes beats per minute over a fixed sampling window, and displays the result on a two-digit 7-segment display.</p>
                         </div>
                     </div>
                     <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
@@ -216,11 +254,11 @@
 
                 <!-- Project Card 6: Sound Analyzer -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/SunA.png" alt="Sound Analyzer" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <img src="https://kaylam60.github.io/assets/SunA.png" alt="Sound Analyzer Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Light them beats!</h3>
-                        <div class="project-description text-gray-300">
-                            <p>Real-time frequency analyzer using microcontrollers. Visualizes audio spectrums using high-speed LED feedback across frequency ranges.</p>
+                        <div class="project-description text-gray-300 mb-4">
+                            <p>This project entailed using LEDs and a microcontroller to analyze which different frequencies were being identified from and an audio output.</p>
                         </div>
                     </div>
                     <div class="flex flex-row space-x-4 justify-end mt-auto pt-4 text-sm">
@@ -229,10 +267,10 @@
                     </div>
                 </div>
 
-                <!-- Project Card 7: (Commented-out pending section) -->
+                <!-- Project Card 7: (Optional/Placeholder kept in comments) -->
                 <!--
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/Crooks.png" alt="Crooks" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <img src="https://kaylam60.github.io/assets/Crooks.png" alt="Dodge the Crooks Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
                     <div>
                         <h3 class="text-xl font-bold mb-2 text-white">Dodge the crooks</h3>
                         <div class="project-description text-gray-300 mb-4">
@@ -274,6 +312,7 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, increment, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // Your specific Firebase Config
         const firebaseConfig = {
           apiKey: "AIzaSyAPNGYLkcwC-Is712XfwZEASla_0XXm9tg",
           authDomain: "my-portfolio-c97fe.firebaseapp.com",
@@ -283,28 +322,30 @@
           appId: "1:52122054006:web:11536224182b0d4b4bde57"
         };
         
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kofi-unique-v1';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kofi-final-v9';
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+
         const SECRET_PASSCODE = "Kofi2025";
-        
-        // Paths
         const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'analytics', 'unique_visitors');
 
-        // Passcode Reveal
+        // Passcode Reveal Logic
         document.getElementById('profile-pic').addEventListener('dblclick', () => {
-            const entry = prompt("Enter Admin Passcode:");
+            const entry = prompt("Enter Admin Passcode to see analytics:");
             if (entry === SECRET_PASSCODE) {
                 document.getElementById('admin-counter').classList.remove('hidden');
                 startMonitoring();
-            } else if (entry !== null) alert("Denied.");
+            } else if (entry !== null) {
+                alert("Incorrect passcode.");
+            }
         });
 
+        // Initialize Firebase
         async function startApp() {
             try {
                 await signInAnonymously(auth);
-            } catch (err) { console.error("Auth:", err.message); }
+            } catch (err) { console.error("Firebase Auth Error:", err.message); }
         }
 
         onAuthStateChanged(auth, async (user) => {
@@ -324,11 +365,14 @@
                     } else {
                         await setDoc(statsRef, { views: 1 }, { merge: true });
                     }
-                    // SET FLAG: Ensure they aren't counted again
+                    // SET FLAG: Ensure they aren't counted again on this device/session
                     await setDoc(trackingRef, { first_visit: new Date() });
                 }
-            } catch (err) { console.error("Tracking error. Check Firestore Rules!"); }
+            } catch (err) { 
+                console.error("Firestore Error. Ensure rules allow user folder access."); 
+            }
 
+            // Automatic reveal if admin key is in URL
             if (window.location.href.includes('admin=true')) {
                 document.getElementById('admin-counter').classList.remove('hidden');
                 startMonitoring();
@@ -340,15 +384,16 @@
             onSnapshot(statsRef, (snap) => {
                 const count = snap.exists() ? snap.data().views : 0;
                 document.getElementById('view-count').innerText = count;
-            });
+            }, (error) => console.error("Monitor error:", error.message));
         }
 
         startApp();
     </script>
 
     <script>
-        // Animations and Page Logic
+        // Animations
         document.addEventListener("DOMContentLoaded", function() {
+            const sections = document.querySelectorAll('.fade-in-section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -357,16 +402,19 @@
                     }
                 });
             }, { threshold: 0.1 });
-            document.querySelectorAll('.fade-in-section').forEach(s => observer.observe(s));
+            sections.forEach(s => observer.observe(s));
         });
 
+        // Resume Expand/Collapse
         function toggleResume() {
             const container = document.getElementById('resume-preview-container');
             const icon = document.getElementById('resume-icon');
             container.classList.toggle('expanded');
-            icon.style.transform = container.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
             if (container.classList.contains('expanded')) {
+                icon.style.transform = 'rotate(180deg)';
                 setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+            } else {
+                icon.style.transform = 'rotate(0deg)';
             }
         }
     </script>
