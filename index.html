@@ -4,11 +4,11 @@
   Features:
   - Dark Mode + Tailwind CSS
   - Expandable Resume Bar with PDF Preview & Download
-  - Private Firestore View Counter (Secret: add ?admin=true to URL)
+  - Private Firestore View Counter (Secret: Double-click PFP + Passcode)
   - Fade-in scroll animations
   - FIXED: Ensured all project card images are the same size using the h-60 w-full object-cover classes.
   - FIXED: Enforced a consistent height for the ENTIRE project card using the h-[40rem] custom value.
-  - NEW: Added CSS rules to hide the scrollbar on the project descriptions while preserving scroll functionality, for a cleaner look.
+  - NEW: Added CSS rules to hide the scrollbar on the project descriptions while preserving scroll functionality.
 -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -87,7 +87,7 @@
     <!-- Header Section -->
     <header class="bg-gray-800 shadow-md sticky top-0 z-50 border-b border-gray-700">
         <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="#" class="text-xl md:text-2xl font-bold text-gray-100 tracking-tight">Kofi Aboagye Ohene Adu</a>
+            <a href="#" class="text-xl md:text-2xl font-bold text-gray-100 tracking-tight text-center md:text-left">Kofi Aboagye Ohene Adu</a>
             <div class="hidden md:flex items-center space-x-8">
                 <a href="#about" class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">About</a>
                 <a href="#resume-section" class="text-gray-300 hover:text-white transition-colors text-sm uppercase tracking-wider font-semibold">Resume</a>
@@ -102,8 +102,7 @@
 
         <!-- Hero Section -->
         <section id="hero" class="text-center py-16 md:py-24 flex flex-col items-center fade-in-section">
-            <!-- Tip: Double-click picture to reveal view counter for debugging -->
-            <img id="profile-pic" src="https://avatars.githubusercontent.com/u/91022528?v=4" alt="Kofi's Profile Picture" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 border-gray-700 shadow-lg cursor-pointer">
+            <img id="profile-pic" src="https://avatars.githubusercontent.com/u/91022528?v=4" alt="Kofi's Profile Picture" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-6 border-4 border-gray-700 shadow-lg cursor-pointer transition-transform hover:scale-105 active:scale-95">
             <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">Hi, I'm Kofi</h1>
             <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
                 Glad to have you here! <br class="hidden md:block">
@@ -112,7 +111,7 @@
         </section>
 
         <!-- About Section -->
-        <section id="about" class="py-12 md:py-16 fade-in-section">
+        <section id="about" class="py-12 md:py-16 fade-in-section text-center md:text-left">
             <div class="bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-700">
                 <h2 class="text-3xl font-bold mb-6 text-center text-white">About Me</h2>
                 <div class="text-gray-300 text-lg leading-relaxed space-y-4 max-w-4xl mx-auto">
@@ -122,7 +121,7 @@
                     </p>
                     <p>
                         I'm also looking to branch into cloud and networks. You can find some of my projects on my
-                        <a href="https://github.com/Kaylam60" target="_blank" class="text-blue-400 hover:underline">GitHub profile</a>.
+                        <a href="https://github.com/Kaylam60" target="_blank" class="text-blue-400 hover:underline font-bold">GitHub profile</a>.
                     </p>
                     <p>
                         Apart from the technical route, I like to dabble in photography, video editing, and languages. I'm also learning to animate in 3D!
@@ -133,7 +132,7 @@
 
         <!-- Interactive Resume Bar Section -->
         <section id="resume-section" class="py-12 fade-in-section">
-            <button onclick="toggleResume()" class="w-full bg-gray-800 border border-gray-700 hover:border-blue-500 rounded-xl p-6 flex items-center justify-between transition-all group shadow-xl">
+            <button onclick="toggleResume()" class="w-full bg-gray-800 border border-gray-700 hover:border-blue-500 rounded-xl p-6 flex items-center justify-between transition-all group shadow-xl text-left">
                 <div class="flex items-center space-x-4">
                     <div class="bg-blue-600 p-3 rounded-lg text-white">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -151,22 +150,22 @@
             <!-- Expanded Resume Preview -->
             <div id="resume-preview-container" class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl overflow-hidden">
                 <div class="p-6 bg-gray-800/50 border-b border-gray-700 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                    <span class="text-sm font-semibold text-gray-400 uppercase tracking-widest">Resume Preview</span>
+                    <span class="text-sm font-semibold text-gray-400 uppercase tracking-widest text-center">Resume Preview</span>
                     <div class="flex space-x-4">
-                        <a href="https://kaylam60.github.io/assets/KofiOheneAdu_Resume_1201.pdf" target="_blank" class="text-gray-400 hover:text-white text-sm flex items-center underline">Open in New Tab</a>
-                        <a href="https://kaylam60.github.io/assets/KofiOheneAdu_Resume_1201.pdf" download="Kofi_Resume.pdf" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-2.5 rounded-lg font-bold flex items-center space-x-2 transition-all shadow-lg transform hover:scale-105 active:scale-95">
+                        <a href="resume.pdf" target="_blank" class="text-gray-400 hover:text-white text-sm flex items-center underline">Open in New Tab</a>
+                        <a href="resume.pdf" download="Kofi_OheneAdu_Resume.pdf" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-2.5 rounded-lg font-bold flex items-center space-x-2 transition-all shadow-lg transform hover:scale-105 active:scale-95">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             <span>Download PDF</span>
                         </a>
                     </div>
                 </div>
-                <!-- Embed Area -->
-                <div class="w-full bg-gray-900" style="height: 800px;">
-                    <embed src="https://kaylam60.github.io/assets/KofiOheneAdu_Resume_1201.pdf" type="application/pdf" width="100%" height="100%" />
+                <div class="w-full bg-gray-900" style="height: 750px;">
+                    <!-- Embed Area -->
+                    <embed src="resume.pdf" type="application/pdf" width="100%" height="100%" />
                     <!-- Mobile fallback -->
                     <div class="md:hidden p-12 text-center text-gray-400">
                         <p class="mb-4">PDF Preview is best on desktop.</p>
-                        <a href="https://kaylam60.github.io/assets/KofiOheneAdu_Resume_1201.pdf" target="_blank" class="bg-gray-700 px-6 py-2 rounded-lg text-white font-bold inline-block">View Full Resume</a>
+                        <a href="resume.pdf" target="_blank" class="bg-gray-700 px-6 py-2 rounded-lg text-white font-bold inline-block">View Full Resume</a>
                     </div>
                 </div>
             </div>
@@ -174,13 +173,13 @@
 
         <!-- Projects Section -->
         <section id="projects" class="py-12 md:py-16 fade-in-section">
-            <h2 class="text-3xl font-bold mb-8 text-center text-white font-inter">My Projects</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center text-white font-inter uppercase tracking-widest">My Projects</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <!-- Project Card 1: Cube Craze -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/CCR.jpg" alt="Cube Craze Robotics Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
-                    <div>
+                    <img src="https://kaylam60.github.io/assets/CCR.jpg" alt="Cube Craze Robotics" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <div class="text-left">
                         <h3 class="text-xl font-bold mb-2 text-white">Cube Craze Robotics</h3>
                         <div class="project-description text-gray-300">
                             <p>I engineered and programmed an autonomous robot using an Arduino microcontroller and a custom chassis. The system utilized a two-wheel H-bridge motorized drive with QTI and TCS3200 color sensors for navigation and object detection. I designed and implemented the state-machine-based C/C++ code for autonomous operation, including line-following, color-based state transitions, and a strategic sweep-and-hoard mission.</p>
@@ -193,8 +192,8 @@
 
                 <!-- Project Card 2: SLAM Car -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/SLAM.jpg" alt="SLAM Based Automotive RC Car Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
-                    <div>
+                    <img src="https://kaylam60.github.io/assets/SLAM.jpg" alt="SLAM car" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <div class="text-left">
                         <h3 class="text-xl font-bold mb-2 text-white">The SLAM car</h3>
                         <div class="project-description text-gray-300">
                             <p>This project involved building a small, autonomous RC car from the ground up, integrating various sensors and controls. The core of the work focused on implementing and fine-tuning PID controllers for both linear distance and angular orientation, allowing the robot to navigate a mapped environment, avoid obstacles, and perform specific stunts like a 180-degree turn. The final challenge involved combining these systems for full-route planning and execution.</p>
@@ -209,8 +208,8 @@
 
                 <!-- Project Card 3: PiDash -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/Pidash.png" alt="Pidash Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
-                    <div>
+                    <img src="https://kaylam60.github.io/assets/Pidash.png" alt="PiDash" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <div class="text-left">
                         <h3 class="text-xl font-bold mb-2 text-white">PiDash</h3>
                         <div class="project-description text-gray-300">
                             <p>Built a Raspberry Pi-powered dashcam system designed for high reliability and deep vehicle integration. The core of the work centered on implementing a two-way camera system where all OpenCV-captured footage was managed by a custom power management circuit to guarantee preservation even if the ignition was cut. Concurrently, a mediamtx server was configured to enable live, web-based video streaming. The final user experience involved integrating an intuitive Python pigame interface on an Adafruit touchscreen, which works in parallel to display critical live OBD-II stats (velocity, RPM, engine load) directly alongside the camera functionality.</p>
@@ -225,7 +224,7 @@
                 <!-- Project Card 4: Foundations of Robotics -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
                     <img src="https://kaylam60.github.io/assets/FR.png" alt="Robotic simulation environment" class="rounded-lg mb-4 h-60 w-full object-cover">
-                    <div>
+                    <div class="text-left">
                         <h3 class="text-xl font-bold mb-2 text-white">Simulate my Controllers and 6DOF's!</h3>
                         <div class="project-description text-gray-300">
                             <p>This project describes all the challenges and steps I went through whilst simulating a robotic run (both robotic car and robotic arm implementations) in a virtual environment during my time in the ECE4770 Foundations of Robotics class. From an introduction to robotics as a whole, degrees of freedom and how they are measured to Kalman and Bayesian filters and the Ziegler Nichols Method for the estimation of PID and MPC controllers.</p>
@@ -238,8 +237,8 @@
 
                 <!-- Project Card 5: Heart Rate Monitor -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/fpga.jpg" alt="FPGA Heart Rate Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
-                    <div>
+                    <img src="https://kaylam60.github.io/assets/fpga.jpg" alt="FPGA Heart Rate" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <div class="text-left">
                         <h3 class="text-xl font-bold mb-2 text-white">FPGA to your Heart</h3>
                         <div class="project-description text-gray-300">
                             <p>This project implements a heart rate monitoring system in Verilog and assembly on a simple processor. It counts heartbeat pulses from a sensor input, computes beats per minute over a fixed sampling window, and displays the result on a two-digit 7-segment display.</p>
@@ -252,8 +251,8 @@
 
                 <!-- Project Card 6: Sound Analyzer -->
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
-                    <img src="https://kaylam60.github.io/assets/SunA.png" alt="Sound Analyzer Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
-                    <div>
+                    <img src="https://kaylam60.github.io/assets/SunA.png" alt="Sound Analyzer" class="rounded-lg mb-4 h-60 w-full object-cover">
+                    <div class="text-left">
                         <h3 class="text-xl font-bold mb-2 text-white">Light them beats!</h3>
                         <div class="project-description text-gray-300">
                             <p>This project entailed using LEDs and a microcontroller to analyze which different frequencies were being identified from and an audio output.</p>
@@ -265,11 +264,11 @@
                     </div>
                 </div>
 
-                <!-- Project Card 7: (Optional/Placeholder) -->
+                <!-- Project Card 7: (Commented Out Section preserved) -->
                 <!--
                 <div class="bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between h-[40rem] border border-gray-700 hover:border-blue-500 transition-colors">
                     <img src="https://kaylam60.github.io/assets/Crooks.png" alt="Dodge the Crooks Project Image" class="rounded-lg mb-4 h-60 w-full object-cover">
-                    <div>
+                    <div class="text-left">
                         <h3 class="text-xl font-bold mb-2 text-white">Dodge the crooks</h3>
                         <div class="project-description text-gray-300 mb-4">
                             <p>*Description Pending* *Visitor patience will be appreciated:) *.</p>
@@ -282,89 +281,120 @@
                     </div>
                 </div>
                 -->
-
             </div>
         </section>
 
         <!-- Connect Section -->
         <section id="connect" class="py-12 md:py-16 fade-in-section text-center">
-            <h2 class="text-3xl font-bold mb-8 text-white">Connect With Me</h2>
+            <h2 class="text-3xl font-bold mb-8 text-white uppercase tracking-widest">Connect With Me</h2>
             <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
-                <a href="https://github.com/Kaylam60" target="_blank" class="bg-gray-700 text-white font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-gray-600 transition-all transform hover:-translate-y-1 text-center">GitHub</a>
-                <a href="https://www.linkedin.com/in/kofi-ohene-adu/" target="_blank" class="bg-blue-600 text-white font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-blue-500 transition-all transform hover:-translate-y-1 text-center">LinkedIn</a>
+                <a href="https://github.com/Kaylam60" target="_blank" class="bg-gray-700 text-white font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-gray-600 transition-all transform hover:-translate-y-1 min-w-[200px]">GitHub</a>
+                <a href="https://www.linkedin.com/in/kofi-ohene-adu/" target="_blank" class="bg-blue-600 text-white font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-blue-500 transition-all transform hover:-translate-y-1 min-w-[200px]">LinkedIn</a>
             </div>
         </section>
     </main>
 
-    <!-- Secret Admin View Counter Badge (Visible only with ?admin=true anywhere in URL) -->
-    <div id="admin-counter" class="hidden fixed bottom-6 right-6 bg-gray-800/90 backdrop-blur border border-gray-600 text-xs text-gray-400 px-4 py-2.5 rounded-full shadow-2xl z-50 flex items-center space-x-3">
-        <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
-        <span class="font-mono uppercase tracking-widest">Total Site Views: <b id="view-count" class="text-white ml-1">...</b></span>
+    <!-- Secret Admin View Counter Badge -->
+    <div id="admin-counter" class="hidden fixed bottom-6 right-6 bg-gray-800/95 backdrop-blur border border-gray-600 text-[10px] text-gray-400 px-4 py-2 rounded-full shadow-2xl z-50 flex items-center space-x-3">
+        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+        <span class="font-mono uppercase tracking-widest">Analytics Dashboard: <b id="view-count" class="text-white ml-1">...</b> VIEWS</span>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 shadow-inner py-10 mt-12 border-t border-gray-700">
-        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
-            &copy; 2025 Kofi Ohene Adu. Built with 💻 and Passion.
-        </div>
+    <footer class="bg-gray-800 shadow-inner py-12 mt-12 border-t border-gray-700 text-center">
+        <p class="text-gray-500 text-sm">&copy; 2025 Kofi Ohene Adu. <br class="md:hidden"> Built with 💻 and Passion.</p>
     </footer>
 
-    <!-- Firebase Logic for Private View Counter -->
+    <!-- Firebase Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // IMPORTANT: In your local/GitHub environment, you need to provide your own config.
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { /* Manual keys here */ };
+        // Firebase Configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyAPNGYLkcwC-Is712XfwZEASla_0XXm9tg",
+          authDomain: "my-portfolio-c97fe.firebaseapp.com",
+          projectId: "my-portfolio-c97fe",
+          storageBucket: "my-portfolio-c97fe.firebasestorage.app",
+          messagingSenderId: "52122054006",
+          appId: "1:52122054006:web:11536224182b0d4b4bde57"
+        };
+        
+        // Environment globals
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kofi-final-v7';
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kofi-final-v6';
 
-        // Robust admin check
-        let isAdmin = window.location.href.includes('admin=true');
+        const SECRET_PASSCODE = "Kofi2025";
+        
+        // MANDATORY RULE 1: Strict Paths
+        const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'analytics', 'portfolio_views');
 
-        // Debug toggle: double click profile picture to see counter
+        // Logic for revealing the counter with passcode prompt
         document.getElementById('profile-pic').addEventListener('dblclick', () => {
-            document.getElementById('admin-counter').classList.toggle('hidden');
+            const entry = prompt("Enter Admin Passcode to see analytics:");
+            if (entry === SECRET_PASSCODE) {
+                document.getElementById('admin-counter').classList.remove('hidden');
+                startMonitoring();
+            } else if (entry !== null) {
+                alert("Incorrect passcode.");
+            }
         });
 
-        const initAuth = async () => {
+        // Initialize Firebase - MANDATORY RULE 3: Auth First
+        async function startApp() {
             try {
+                // Priority to system token if provided
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
+                    // Fallback to anonymous (ensure this is enabled in your Firebase console!)
                     await signInAnonymously(auth);
                 }
-            } catch (error) {
-                console.error("Auth Error:", error);
+            } catch (err) { 
+                console.error("Auth failed:", err);
+                // Note: auth/admin-restricted-operation usually means Anonymous Sign-in is disabled in your Firebase console.
             }
-        };
-
-        initAuth();
+        }
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) return;
-            const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'analytics', 'global');
+
+            // Increment count on every visit
             try {
+                // Note: increment works on document fields
                 await updateDoc(statsRef, { views: increment(1) });
             } catch (err) {
+                // Create doc if it doesn't exist yet
                 await setDoc(statsRef, { views: 1 }, { merge: true });
             }
-            if (isAdmin) {
+
+            // Check URL for admin bypass
+            if (window.location.href.includes('admin=true')) {
                 document.getElementById('admin-counter').classList.remove('hidden');
-                onSnapshot(statsRef, (snap) => {
-                    if (snap.exists()) {
-                        document.getElementById('view-count').innerText = snap.data().views || 0;
-                    }
-                }, (error) => console.error("Snapshot Error:", error));
+                startMonitoring();
             }
         });
+
+        function startMonitoring() {
+            // Guard query with user check
+            if (!auth.currentUser) return;
+            
+            onSnapshot(statsRef, (snap) => {
+                if (snap.exists()) {
+                    document.getElementById('view-count').innerText = snap.data().views || 0;
+                }
+            }, (error) => console.error("Monitor error:", error));
+        }
+
+        startApp();
     </script>
 
     <script>
-        // Animations
+        // Animations and Page Logic
         document.addEventListener("DOMContentLoaded", function() {
             const sections = document.querySelectorAll('.fade-in-section');
             const observer = new IntersectionObserver((entries) => {
@@ -375,19 +405,16 @@
                     }
                 });
             }, { threshold: 0.1 });
-            sections.forEach(section => observer.observe(section));
+            sections.forEach(s => observer.observe(s));
         });
 
-        // Resume Expand/Collapse Function
         function toggleResume() {
             const container = document.getElementById('resume-preview-container');
             const icon = document.getElementById('resume-icon');
             container.classList.toggle('expanded');
             if (container.classList.contains('expanded')) {
                 icon.style.transform = 'rotate(180deg)';
-                setTimeout(() => {
-                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
+                setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
             } else {
                 icon.style.transform = 'rotate(0deg)';
             }
